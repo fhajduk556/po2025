@@ -15,12 +15,15 @@ public class Zoo {
             int los = random.nextInt(3);
             if (los == 0){
                 this.animals[i] = new Dog();
+                this.animals[i].getDescription();
             }
             if(los == 1){
                 this.animals[i] = new Snake();
+                this.animals[i].getDescription();
             }
             if(los == 2){
                 this.animals[i] = new Parrot();
+                this.animals[i].getDescription();
             }
         }
     }
@@ -35,5 +38,8 @@ public class Zoo {
         Zoo zoo = new Zoo();
         int sumanog = zoo.sumLegs();
         System.out.println(sumanog);
+        int legs = zoo.animals[0].getLegs();
+        int legs2 = zoo.animals[1].getLegs() * 2;
+        zoo.animals[0].makeSound();
     }
 }

@@ -7,4 +7,7 @@ public class Dog extends Animal{
     public String getDescription() {
         return "Dog";
     }
+    public void makeSound() {
+        System.out.println("hau hau");
+    }
 }

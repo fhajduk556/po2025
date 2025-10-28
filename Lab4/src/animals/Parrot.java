@@ -7,4 +7,7 @@ public class Parrot extends Animal{
     public String getDescription() {
         return "Parrot";
     }
+    public void makeSound() {
+        System.out.println("chce krakersa");
+    }
 }
