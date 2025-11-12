@@ -1,7 +1,7 @@
 package symulator;
 
 public class Sprzęgło extends Komponent {
-    private boolean stanSprzęgła;
+    public boolean stanSprzęgła;
     public Sprzęgło() {
         this.stanSprzęgła = false;
     }

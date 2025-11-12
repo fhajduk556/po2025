@@ -14,4 +14,12 @@ public class Pozycja {
     public String getPozycja() {
         return String.valueOf(x) + "," + String.valueOf(y);
     }
+    public void przenies(Pozycja cel, float V) {
+        float docelu_x = (float)(cel.x - this.x);
+        float docelu_y = (float)(cel.y - this.y);
+        float odleglosc = (float) Math.sqrt(docelu_y*docelu_y + docelu_x*docelu_x);
+        float wersor_x = (float)(cel.x - this.x)/odleglosc;
+        float wersor_y = (float)(cel.y - this.y)/odleglosc;
+
+    }
 }
