@@ -1,16 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.lab6.HelloController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-  </padding>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lab6.HelloController">
 
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <MenuBar>
+                    <menus>
+                        <Menu mnemonicParsing="false" text="Plik">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Zamknij" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Edycja">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Usuń" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+                <ToolBar prefHeight="40.0" prefWidth="200.0">
+                    <items>
+                        <Label text="Samochód:" />
+                        <ComboBox fx:id="carComboBox" prefWidth="150.0" promptText="Wybierz..." />
+                        <Separator orientation="VERTICAL" />
+                        <Button fx:id="addCarButton" mnemonicParsing="false" text="Dodaj nowy" onAction="#onAddCarButton" />
+                        <Button fx:id="deleteCarButton" mnemonicParsing="false" text="Usuń" onAction="#onDeleteCarButton" />
+                    </items>
+                </ToolBar>
+            </children>
+        </VBox>
+    </top>
+
+    <left>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="250.0" BorderPane.alignment="CENTER">
+            <content>
+                <VBox spacing="5.0">
+                    <children>
+                        <TitledPane animated="false" text="Samochód" collapsible="true">
+                            <content>
+                                <VBox spacing="10.0">
+                                    <children>
+                                        <Label text="Model" />
+                                        <TextField fx:id="modelTextField" />
+                                        <Label text="Nr rejestracyjny" />
+                                        <TextField fx:id="plateTextField" />
+                                        <Label text="Waga" />
+                                        <TextField fx:id="weightTextField" />
+                                        <Label text="Prędkość" />
+                                        <TextField fx:id="speedTextField" editable="false" />
+                                        <HBox spacing="10.0" alignment="CENTER">
+                                            <children>
+                                                <Button fx:id="startButton" mnemonicParsing="false" text="Włącz" onAction="#onStartButton" />
+                                                <Button fx:id="stopButton" mnemonicParsing="false" text="Wyłącz" onAction="#onStopButton" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </TitledPane>
+
+                        <TitledPane animated="false" text="Skrzynia Biegów" collapsible="true">
+                            <content>
+                                <VBox spacing="5.0">
+                                    <children>
+                                        <Label text="Nazwa" />
+                                        <TextField fx:id="gearboxNameTextField" />
+                                        <Label text="Cena" />
+                                        <TextField fx:id="gearboxPriceTextField" />
+                                        <Label text="Waga" />
+                                        <TextField fx:id="gearboxWeightTextField" />
+                                        <Label text="Bieg" />
+                                        <TextField fx:id="gearTextField" editable="false"/>
+                                        <HBox spacing="5.0" alignment="CENTER">
+                                            <children>
+                                                <Button fx:id="gearUpButton" mnemonicParsing="false" text="Zwiększ bieg" onAction="#onGearUpButton" />
+                                                <Button fx:id="gearDownButton" mnemonicParsing="false" text="Zmniejsz bieg" onAction="#onGearDownButton" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </TitledPane>
+
+                        <TitledPane animated="false" text="Silnik" collapsible="true">
+                            <content>
+                                <VBox spacing="5.0">
+                                    <children>
+                                        <Label text="Nazwa" />
+                                        <TextField fx:id="engineNameTextField" />
+                                        <Label text="Cena" />
+                                        <TextField fx:id="enginePriceTextField" />
+                                        <Label text="Waga" />
+                                        <TextField fx:id="engineWeightTextField" />
+                                        <Label text="Obroty" />
+                                        <TextField fx:id="rpmTextField" editable="false" />
+                                        <HBox spacing="10.0" alignment="CENTER">
+                                            <children>
+                                                <Button fx:id="gasAddButton" mnemonicParsing="false" text="Dodaj gazu" onAction="#onGasAddButton" />
+                                                <Button fx:id="gasRemoveButton" mnemonicParsing="false" text="Ujmij gazu" onAction="#onGasRemoveButton" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </TitledPane>
+
+                        <TitledPane animated="false" text="Sprzęgło" collapsible="true">
+                            <content>
+                                <VBox spacing="5.0">
+                                    <children>
+                                        <Label text="Nazwa" />
+                                        <TextField fx:id="clutchNameTextField" />
+                                        <Label text="Cena" />
+                                        <TextField fx:id="clutchPriceTextField" />
+                                        <Label text="Waga" />
+                                        <TextField fx:id="clutchWeightTextField" />
+                                        <Label text="Stan" />
+                                        <TextField fx:id="clutchStateTextField" editable="false" />
+                                        <HBox spacing="10.0" alignment="CENTER">
+                                            <children>
+                                                <Button fx:id="clutchPressButton" mnemonicParsing="false" text="Naciśnij" onAction="#onClutchPressButton" />
+                                                <Button fx:id="clutchReleaseButton" mnemonicParsing="false" text="Zwolnij" onAction="#onClutchReleaseButton" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </TitledPane>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </left>
+
+    <center>
+        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #90EE90;" BorderPane.alignment="CENTER">
+            <children>
+                <Label layoutX="14.0" layoutY="14.0" text="Mapa" textFill="#006600" />
+                <ImageView fx:id="carImageView" fitHeight="64.0" fitWidth="64.0" layoutX="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="https://img.icons8.com/color/96/000000/fiat-500.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
+    </center>
+</BorderPane>
