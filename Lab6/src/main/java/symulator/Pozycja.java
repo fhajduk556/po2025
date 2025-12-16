@@ -14,12 +14,24 @@ public class Pozycja {
     public String getPozycja() {
         return String.valueOf(x) + "," + String.valueOf(y);
     }
-    public void przenies(Pozycja cel, float V) {
-        float docelu_x = (float)(cel.x - this.x);
-        float docelu_y = (float)(cel.y - this.y);
-        float odleglosc = (float) Math.sqrt(docelu_y*docelu_y + docelu_x*docelu_x);
-        float wersor_x = (float)(cel.x - this.x)/odleglosc;
-        float wersor_y = (float)(cel.y - this.y)/odleglosc;
-
+    public void przenies(Pozycja cel, double V, double dt) {
+        double dx = cel.x - this.x;
+        double dy = cel.y - this.y;
+        double odleglosc = Math.sqrt(dx * dx + dy * dy);
+        if (odleglosc < 0.0001) {
+            this.x = cel.x;
+            this.y = cel.y;
+            return;
+        }
+        double krok = V * dt;
+        if (krok >= odleglosc) {
+            this.x = cel.x;
+            this.y = cel.y;
+        } else {
+            double wersor_x = dx / odleglosc;
+            double wersor_y = dy / odleglosc;
+            this.x += wersor_x * krok;
+            this.y += wersor_y * krok;
+        }
     }
 }

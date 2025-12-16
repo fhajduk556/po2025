@@ -26,8 +26,8 @@ public class Samochód {
     public void JedźDo(Pozycja cel) {
         //
     }
-    public float getAktPredkosc() {
-        float teor_predkosc = (float) this.silnik.obroty * this.skrzynia.getAktPrzelozenie();
+    public double getAktPredkosc() {
+        double teor_predkosc = (double) this.silnik.obroty * this.skrzynia.getAktPrzelozenie();
         if (teor_predkosc > this.predkoscMax) {
             return this.predkoscMax;
         } else {
