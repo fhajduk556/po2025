@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
+import symulator.Samochód;
+
 public class HelloController {
 
     @FXML private TextField modelTextField;
@@ -25,42 +27,90 @@ public class HelloController {
     @FXML private TextField engineWeightTextField;
     @FXML private TextField rpmTextField;
 
-    @FXML private ComboBox<String> carComboBox; //do zmiany na typ Samochód
+    @FXML private ComboBox<Samochód> carComboBox;
     @FXML private Button startButton;
     @FXML private Button stopButton;
     @FXML private Button gearUpButton;
     @FXML private Button gearDownButton;
 
+    private ObservableList<Samochód> listaSamochodow = FXCollections.observableArrayList();
+    private Samochód aktywnySamochod;
+
+    @FXML
+    public void initialize() {
+        Samochód s1 = new Samochód("Fiat 126p", "KR 12345");
+        Samochód s2 = new Samochód("Porsche 911", "W0 ROCKET");
+        listaSamochodow.add(s1);
+        listaSamochodow.add(s2);
+        carComboBox.setItems(listaSamochodow);
+    }
+
+    private void odswiezWidok() {
+        if (aktywnySamochod == null) return;
+        modelTextField.setText(aktywnySamochod.model);
+        plateTextField.setText(aktywnySamochod.nrRejestr);
+        speedTextField.setText(String.format("%.2f km/h", aktywnySamochod.getAktPredkosc()));
+        rpmTextField.setText(String.valueOf(aktywnySamochod.silnik.obroty));
+        gearTextField.setText(String.valueOf(aktywnySamochod.skrzynia.getAktualnyBieg()));
+    }
+
+    @FXML
+    private void onCarSelect() {
+        aktywnySamochod = carComboBox.getValue();
+        odswiezWidok();
+        System.out.println("Wybrano auto: " + aktywnySamochod);
+    }
+
     @FXML
     private void onStartButton() {
-        System.out.println("Samochód uruchomiony (Włącz)");
-        // kod uruchomienia samochodu
+        if (aktywnySamochod != null) {
+            System.out.println("Włączam samochód: " + aktywnySamochod.model);
+            aktywnySamochod.włącz();
+            odswiezWidok();
+        }
     }
 
     @FXML
     private void onStopButton() {
-        System.out.println("Samochód zatrzymany (Wyłącz)");
-        // kod zatrzymania samochodu
+        if (aktywnySamochod != null) {
+            System.out.println("Wyłączam samochód: " + aktywnySamochod.model);
+            aktywnySamochod.wyłącz();
+            odswiezWidok();
+        }
     }
 
     @FXML
     private void onGearUpButton() {
-        System.out.println("gearup");
+        if (aktywnySamochod != null) {
+            aktywnySamochod.skrzynia.zwiększBieg();
+            System.out.println("Bieg w górę -> " + aktywnySamochod.skrzynia.getAktualnyBieg());
+            odswiezWidok();
+        }
     }
 
     @FXML
     private void onGearDownButton() {
-        System.out.println("geardown");
+        if (aktywnySamochod != null) {
+            aktywnySamochod.skrzynia.zmniejszBieg();
+            System.out.println("Bieg w dół -> " + aktywnySamochod.skrzynia.getAktualnyBieg());
+            odswiezWidok();
+        }
     }
 
     @FXML
     private void onGasAddButton() {
-        System.out.println("Dodano gazu");
+        if (aktywnySamochod != null && aktywnySamochod.stanWłączenia) {
+            aktywnySamochod.silnik.zwiększObroty();
+            odswiezWidok();
+        }
     }
 
     @FXML
     private void onGasRemoveButton() {
-        System.out.println("Ujęto gazu");
+        if (aktywnySamochod != null && aktywnySamochod.stanWłączenia) {
+            aktywnySamochod.silnik.zmniejszObroty();
+            odswiezWidok();
+        }
     }
 
     @FXML
@@ -75,12 +125,20 @@ public class HelloController {
 
     @FXML
     private void onAddCarButton() {
-        System.out.println("Dodano auto");
+        Samochód noweAuto = new Samochód("Nowe Auto " + (listaSamochodow.size() + 1), "KR NEW");
+        listaSamochodow.add(noweAuto);
+        carComboBox.setValue(noweAuto);
     }
 
     @FXML
     private void onDeleteCarButton() {
-        System.out.println("Usunięto auto");
+        if (aktywnySamochod != null) {
+            listaSamochodow.remove(aktywnySamochod);
+            aktywnySamochod = null;
+            modelTextField.clear();
+            plateTextField.clear();
+            //reszta czyszczenia
+        }
     }
 
 }

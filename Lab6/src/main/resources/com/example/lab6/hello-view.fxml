@@ -42,7 +42,7 @@
                 <ToolBar prefHeight="40.0" prefWidth="200.0">
                     <items>
                         <Label text="Samochód:" />
-                        <ComboBox fx:id="carComboBox" prefWidth="150.0" promptText="Wybierz..." />
+                        <ComboBox fx:id="carComboBox" prefWidth="150.0" promptText="Wybierz..." onAction="#onCarSelect" />
                         <Separator orientation="VERTICAL" />
                         <Button fx:id="addCarButton" mnemonicParsing="false" text="Dodaj nowy" onAction="#onAddCarButton" />
                         <Button fx:id="deleteCarButton" mnemonicParsing="false" text="Usuń" onAction="#onDeleteCarButton" />

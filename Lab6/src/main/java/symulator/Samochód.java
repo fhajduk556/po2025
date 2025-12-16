@@ -14,18 +14,30 @@ public class Samochód {
         this.predkoscMax = 250;
         this.stanWłączenia = false;
         aktualnaPozycja = new Pozycja(0, 0);
+        this.model = "Nieznany";
+        this.nrRejestr = "BRAK";
     }
+
+    public Samochód(String model, String nrRejestr) {
+        this();
+        this.model = model;
+        this.nrRejestr = nrRejestr;
+    }
+
     public void włącz() {
         this.silnik.uruchom();
         this.stanWłączenia = true;
     }
+
     public void wyłącz() {
         this.silnik.zatrzymaj();
         this.stanWłączenia = false;
     }
+
     public void JedźDo(Pozycja cel) {
         //
     }
+
     public double getAktPredkosc() {
         double teor_predkosc = (double) this.silnik.obroty * this.skrzynia.getAktPrzelozenie();
         if (teor_predkosc > this.predkoscMax) {
@@ -38,4 +50,8 @@ public class Samochód {
         return this.aktualnaPozycja;
     }
 
+    @Override
+    public String toString() {
+        return model + " (" + nrRejestr + ")";
+    }
 }
