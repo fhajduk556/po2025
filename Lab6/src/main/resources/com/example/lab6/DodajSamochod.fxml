@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="152.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="262.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="267.0" text="Model" />
+            <TextField fx:id="modelAddTextField" />
+            <Label text="Numer rejestracyjny" />
+            <TextField fx:id="nrRejestracyjnyAddTextField" />
+            <Label prefHeight="18.0" prefWidth="274.0" text="Waga" />
+            <TextField fx:id="wagaAddTextField" />
+            <Label prefHeight="18.0" prefWidth="270.0" text="Prędkość maksymalna" />
+            <TextField fx:id="speedAddTextField" />
+            <Label prefHeight="18.0" prefWidth="274.0" text="Silnik" />
+            <ComboBox fx:id="SilnikComboBox" prefWidth="150.0" />
+            <Label prefHeight="18.0" prefWidth="278.0" text="skrzynia biegów" />
+            <ComboBox fx:id="SkrzyniaComboBox" prefWidth="150.0" />
+            <Button fx:id="confirmButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" text="Zatwierdź" onAction="#onConfirmButton"/>
+            <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="44.0" prefWidth="94.0" text="Anuluj" onAction="#onCancelButton"/>
+         </children></VBox>
+   </children>
+</AnchorPane>

@@ -1,6 +1,8 @@
 package com.example.lab6;
 
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +14,7 @@ import symulator.Samochód;
 
 public class HelloController {
 
+    public ImageView carImageView;
     @FXML private TextField modelTextField;
     @FXML private TextField plateTextField;
     @FXML private TextField weightTextField;
@@ -38,11 +41,20 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-        Samochód s1 = new Samochód("Fiat 126p", "KR 12345");
-        Samochód s2 = new Samochód("Porsche 911", "W0 ROCKET");
-        listaSamochodow.add(s1);
-        listaSamochodow.add(s2);
-        carComboBox.setItems(listaSamochodow);
+        System.out.println("HelloController initialized");
+// Load and set the car image
+        Image carImage = new Image(getClass().getResource("/images/car.png").toExternalForm());
+        System.out.println("Image width: " + carImage.getWidth() + ", height: " + carImage.getHeight());
+        carImageView.setImage(carImage);
+        carImageView.setFitWidth(30);
+        carImageView.setFitHeight(20);
+        carImageView.setTranslateX(0);
+        carImageView.setTranslateY(0);
+//        Samochód s1 = new Samochód("Fiat 126p", "KR 12345");
+//        Samochód s2 = new Samochód("Porsche 911", "W0 ROCKET");
+//        listaSamochodow.add(s1);
+//        listaSamochodow.add(s2);
+//        carComboBox.setItems(listaSamochodow);
     }
 
     private void odswiezWidok() {

@@ -62,11 +62,11 @@
                                 <VBox spacing="10.0">
                                     <children>
                                         <Label text="Model" />
-                                        <TextField fx:id="modelTextField" />
+                                        <TextField fx:id="modelTextField" editable="false" />
                                         <Label text="Nr rejestracyjny" />
-                                        <TextField fx:id="plateTextField" />
+                                        <TextField fx:id="plateTextField" editable="false" />
                                         <Label text="Waga" />
-                                        <TextField fx:id="weightTextField" />
+                                        <TextField fx:id="weightTextField" editable="false" />
                                         <Label text="Prędkość" />
                                         <TextField fx:id="speedTextField" editable="false" />
                                         <HBox spacing="10.0" alignment="CENTER">
@@ -85,11 +85,11 @@
                                 <VBox spacing="5.0">
                                     <children>
                                         <Label text="Nazwa" />
-                                        <TextField fx:id="gearboxNameTextField" />
+                                        <TextField fx:id="gearboxNameTextField" editable="false" />
                                         <Label text="Cena" />
-                                        <TextField fx:id="gearboxPriceTextField" />
+                                        <TextField fx:id="gearboxPriceTextField" editable="false" />
                                         <Label text="Waga" />
-                                        <TextField fx:id="gearboxWeightTextField" />
+                                        <TextField fx:id="gearboxWeightTextField" editable="false" />
                                         <Label text="Bieg" />
                                         <TextField fx:id="gearTextField" editable="false"/>
                                         <HBox spacing="5.0" alignment="CENTER">
@@ -108,11 +108,11 @@
                                 <VBox spacing="5.0">
                                     <children>
                                         <Label text="Nazwa" />
-                                        <TextField fx:id="engineNameTextField" />
+                                        <TextField fx:id="engineNameTextField" editable="false" />
                                         <Label text="Cena" />
-                                        <TextField fx:id="enginePriceTextField" />
+                                        <TextField fx:id="enginePriceTextField" editable="false" />
                                         <Label text="Waga" />
-                                        <TextField fx:id="engineWeightTextField" />
+                                        <TextField fx:id="engineWeightTextField" editable="false" />
                                         <Label text="Obroty" />
                                         <TextField fx:id="rpmTextField" editable="false" />
                                         <HBox spacing="10.0" alignment="CENTER">
@@ -131,11 +131,11 @@
                                 <VBox spacing="5.0">
                                     <children>
                                         <Label text="Nazwa" />
-                                        <TextField fx:id="clutchNameTextField" />
+                                        <TextField fx:id="clutchNameTextField" editable="false" />
                                         <Label text="Cena" />
-                                        <TextField fx:id="clutchPriceTextField" />
+                                        <TextField fx:id="clutchPriceTextField" editable="false" />
                                         <Label text="Waga" />
-                                        <TextField fx:id="clutchWeightTextField" />
+                                        <TextField fx:id="clutchWeightTextField" editable="false" />
                                         <Label text="Stan" />
                                         <TextField fx:id="clutchStateTextField" editable="false" />
                                         <HBox spacing="10.0" alignment="CENTER">
