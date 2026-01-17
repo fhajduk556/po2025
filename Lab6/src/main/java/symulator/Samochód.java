@@ -8,20 +8,27 @@ public class Samochód {
     public String nrRejestr;
     public String model;
     public int predkoscMax;
+    public double waga;
     public Samochód(){
         this.silnik = new Silnik();
-        this.skrzynia = new SkrzyniaBiegów();
+        this.skrzynia = new SkrzyniaBiegów(6);
         this.predkoscMax = 250;
         this.stanWłączenia = false;
         aktualnaPozycja = new Pozycja(0, 0);
         this.model = "Nieznany";
         this.nrRejestr = "BRAK";
+        this.waga = 1000.0;
     }
 
-    public Samochód(String model, String nrRejestr) {
+    public Samochód(String model, String nrRejestr, double waga, int predkoscMax,
+                    Silnik silnik, SkrzyniaBiegów skrzynia) {
         this();
         this.model = model;
         this.nrRejestr = nrRejestr;
+        this.waga = waga;
+        this.predkoscMax = predkoscMax;
+        this.silnik = silnik;
+        this.skrzynia = skrzynia;
     }
 
     public void włącz() {

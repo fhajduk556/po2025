@@ -5,11 +5,28 @@ public class SkrzyniaBiegów extends Komponent {
     private float aktualnePrzelozenie;
     private int iloscBiegow;
     public Sprzęgło sprzeglo;
-    public SkrzyniaBiegów() {
+
+    public SkrzyniaBiegów(int iloscBiegow) {
+        super();
         this.aktualnyBieg = 1;  //bieg 0 to wsteczny
-        this.iloscBiegow = 6;
+        this.iloscBiegow = iloscBiegow + 1;
         this.sprzeglo = new Sprzęgło();
     }
+
+    public SkrzyniaBiegów(String nazwa, int iloscBiegow) {
+        super(nazwa);
+        this.aktualnyBieg = 1;
+        this.iloscBiegow = iloscBiegow + 1;
+        this.sprzeglo = new Sprzęgło();
+    }
+
+    public SkrzyniaBiegów(String nazwa, String producent, String model, int iloscBiegow) {
+        super(nazwa, producent, model);
+        this.aktualnyBieg = 1;
+        this.iloscBiegow = iloscBiegow + 1;
+        this.sprzeglo = new Sprzęgło();
+    }
+
     public void zwiększBieg() {
         if (this.aktualnyBieg  < this.iloscBiegow - 1) {
             this.sprzeglo.wciśnij();
@@ -28,7 +45,12 @@ public class SkrzyniaBiegów extends Komponent {
         return this.aktualnyBieg;
     }
     public float getAktPrzelozenie() {
-        this.aktualnePrzelozenie = (float) this.aktualnyBieg * 0.1f;
+        if (this.aktualnyBieg > 0) {
+            this.aktualnePrzelozenie = (float) this.aktualnyBieg * 0.1f;
+        } else {
+            this.aktualnePrzelozenie = (float) -1 * 0.1f;
+        }
+
         return this.aktualnePrzelozenie;
     }
 }

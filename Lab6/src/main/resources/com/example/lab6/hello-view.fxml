@@ -161,11 +161,7 @@
         <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #90EE90;" BorderPane.alignment="CENTER">
             <children>
                 <Label layoutX="14.0" layoutY="14.0" text="Mapa" textFill="#006600" />
-                <ImageView fx:id="carImageView" fitHeight="64.0" fitWidth="64.0" layoutX="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="https://img.icons8.com/color/96/000000/fiat-500.png" />
-                    </image>
-                </ImageView>
+                <ImageView fx:id="carImageView" fitHeight="64.0" fitWidth="64.0" layoutX="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
             </children>
         </Pane>
     </center>

@@ -1,6 +1,8 @@
 package com.example.lab6;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
@@ -10,11 +12,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 import symulator.Samochód;
+import symulator.Silnik;
+import symulator.SkrzyniaBiegów;
 
 public class HelloController {
 
-    public ImageView carImageView;
+    @FXML public ImageView carImageView;
     @FXML private TextField modelTextField;
     @FXML private TextField plateTextField;
     @FXML private TextField weightTextField;
@@ -36,11 +41,14 @@ public class HelloController {
     @FXML private Button gearUpButton;
     @FXML private Button gearDownButton;
 
+    private static HelloController instance;
+
     private ObservableList<Samochód> listaSamochodow = FXCollections.observableArrayList();
     private Samochód aktywnySamochod;
 
     @FXML
     public void initialize() {
+        instance = this;
         System.out.println("HelloController initialized");
 // Load and set the car image
         Image carImage = new Image(getClass().getResource("/images/car.png").toExternalForm());
@@ -54,7 +62,7 @@ public class HelloController {
 //        Samochód s2 = new Samochód("Porsche 911", "W0 ROCKET");
 //        listaSamochodow.add(s1);
 //        listaSamochodow.add(s2);
-//        carComboBox.setItems(listaSamochodow);
+        carComboBox.setItems(listaSamochodow);
     }
 
     private void odswiezWidok() {
@@ -64,6 +72,14 @@ public class HelloController {
         speedTextField.setText(String.format("%.2f km/h", aktywnySamochod.getAktPredkosc()));
         rpmTextField.setText(String.valueOf(aktywnySamochod.silnik.obroty));
         gearTextField.setText(String.valueOf(aktywnySamochod.skrzynia.getAktualnyBieg()));
+    }
+
+    public static void addCarToList(String model, String registration, double weight,
+                                    int speed, Silnik silnik, SkrzyniaBiegów skrzynia) {
+        if (instance == null) return;
+        Samochód noweAuto = new Samochód(model, registration, weight, speed, silnik, skrzynia);
+        instance.listaSamochodow.add(noweAuto);
+        System.out.println("Dodano auto: " + model);
     }
 
     @FXML
@@ -137,9 +153,15 @@ public class HelloController {
 
     @FXML
     private void onAddCarButton() {
-        Samochód noweAuto = new Samochód("Nowe Auto " + (listaSamochodow.size() + 1), "KR NEW");
-        listaSamochodow.add(noweAuto);
-        carComboBox.setValue(noweAuto);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("DodajSamochod.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Dodaj nowy samochód");
+            stage.setScene(new Scene(loader.load()));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
