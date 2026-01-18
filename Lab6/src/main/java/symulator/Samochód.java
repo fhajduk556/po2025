@@ -73,7 +73,7 @@ public class Samochód extends Thread {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(100);
+                Thread.sleep(40);
                 if (stanWłączenia && cel != null) {
                     aktualnaPozycja.przenies(cel, getAktPredkosc(), 0.1);
                     notifyListeners();

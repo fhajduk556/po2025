@@ -86,10 +86,6 @@
                                     <children>
                                         <Label text="Nazwa" />
                                         <TextField fx:id="gearboxNameTextField" editable="false" />
-                                        <Label text="Cena" />
-                                        <TextField fx:id="gearboxPriceTextField" editable="false" />
-                                        <Label text="Waga" />
-                                        <TextField fx:id="gearboxWeightTextField" editable="false" />
                                         <Label text="Bieg" />
                                         <TextField fx:id="gearTextField" editable="false"/>
                                         <HBox spacing="5.0" alignment="CENTER">
@@ -109,10 +105,6 @@
                                     <children>
                                         <Label text="Nazwa" />
                                         <TextField fx:id="engineNameTextField" editable="false" />
-                                        <Label text="Cena" />
-                                        <TextField fx:id="enginePriceTextField" editable="false" />
-                                        <Label text="Waga" />
-                                        <TextField fx:id="engineWeightTextField" editable="false" />
                                         <Label text="Obroty" />
                                         <TextField fx:id="rpmTextField" editable="false" />
                                         <HBox spacing="10.0" alignment="CENTER">
@@ -130,12 +122,6 @@
                             <content>
                                 <VBox spacing="5.0">
                                     <children>
-                                        <Label text="Nazwa" />
-                                        <TextField fx:id="clutchNameTextField" editable="false" />
-                                        <Label text="Cena" />
-                                        <TextField fx:id="clutchPriceTextField" editable="false" />
-                                        <Label text="Waga" />
-                                        <TextField fx:id="clutchWeightTextField" editable="false" />
                                         <Label text="Stan" />
                                         <TextField fx:id="clutchStateTextField" editable="false" />
                                         <HBox spacing="10.0" alignment="CENTER">
@@ -161,7 +147,6 @@
         <Pane fx:id="mapa" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #90EE90;" BorderPane.alignment="CENTER">
             <children>
                 <Label layoutX="14.0" layoutY="14.0" text="Mapa" textFill="#006600" />
-                <ImageView fx:id="carImageView" fitHeight="64.0" fitWidth="64.0" layoutX="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
             </children>
         </Pane>
     </center>

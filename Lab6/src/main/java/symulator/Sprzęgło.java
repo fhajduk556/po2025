@@ -5,10 +5,10 @@ public class Sprzęgło extends Komponent {
     public Sprzęgło() {
         this.stanSprzęgła = false;
     }
-    void wciśnij() {
+    public void wciśnij() {
         this.stanSprzęgła = true;
     }
-    void zwolnij() {
+    public void zwolnij() {
         this.stanSprzęgła = false;
     }
 }

@@ -1,26 +1,23 @@
 package com.example.lab6;
 
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import symulator.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HelloController implements Listener{
 
-    @FXML public ImageView carImageView;
     @FXML private Pane mapa;
 
     @FXML private TextField modelTextField;
@@ -29,46 +26,52 @@ public class HelloController implements Listener{
     @FXML private TextField speedTextField;
 
     @FXML private TextField gearboxNameTextField;
-    @FXML private TextField gearboxPriceTextField;
-    @FXML private TextField gearboxWeightTextField;
     @FXML private TextField gearTextField;
 
     @FXML private TextField engineNameTextField;
-    @FXML private TextField enginePriceTextField;
-    @FXML private TextField engineWeightTextField;
     @FXML private TextField rpmTextField;
+    @FXML private TextField clutchStateTextField;
 
     @FXML private ComboBox<Samochód> carComboBox;
+
     @FXML private Button startButton;
     @FXML private Button stopButton;
     @FXML private Button gearUpButton;
     @FXML private Button gearDownButton;
+    @FXML private Button gasAddButton;
+    @FXML private Button gasRemoveButton;
+    @FXML private Button clutchPressButton;
+    @FXML private Button clutchReleaseButton;
 
     private static HelloController instance;
 
     private ObservableList<Samochód> listaSamochodow = FXCollections.observableArrayList();
     private Samochód aktywnySamochod;
 
+    private Map<Samochód, ImageView> ikonySamochodow = new HashMap<>();
+    private Image carImage;
+
     @FXML
     public void initialize() {
         instance = this;
         System.out.println("HelloController initialized");
-        Image carImage = new Image(getClass().getResource("/images/car.png").toExternalForm());
-        System.out.println("Image width: " + carImage.getWidth() + ", height: " + carImage.getHeight());
-        carImageView.setImage(carImage);
-        carImageView.setFitWidth(30);
-        carImageView.setFitHeight(20);
-        carImageView.setTranslateX(0);
-        carImageView.setTranslateY(0);
 
+        try {
+            carImage = new Image(getClass().getResource("/images/car.png").toExternalForm());
+        } catch (Exception e) {
+            pokazBlad(e.getMessage());
+        }
         carComboBox.setItems(listaSamochodow);
 
         mapa.setOnMouseClicked(event -> {
-            double x = event.getX();
-            double y = event.getY();
-            System.out.println("Kliknięto mapę: " + x + ", " + y);
-            Pozycja cel = new Pozycja(x, y);
-            aktywnySamochod.JedźDo(cel);
+            if (aktywnySamochod != null) {
+                double x = event.getX();
+                double y = event.getY();
+                System.out.println("Cel dla " + aktywnySamochod.model + ": " + x + ", " + y);
+
+                Pozycja cel = new Pozycja(x - 15, y - 10);
+                aktywnySamochod.JedźDo(cel);
+            }
         });
     }
 
@@ -80,16 +83,46 @@ public class HelloController implements Listener{
     }
 
     private void odswiezWidok() {
-        if (aktywnySamochod == null) return;
-        modelTextField.setText(aktywnySamochod.model);
-        plateTextField.setText(aktywnySamochod.nrRejestr);
-        speedTextField.setText(String.format("%.2f km/h", aktywnySamochod.getAktPredkosc()));
-        rpmTextField.setText(String.valueOf(aktywnySamochod.silnik.obroty));
-        gearTextField.setText(String.valueOf(aktywnySamochod.skrzynia.getAktualnyBieg()));
+        for (Map.Entry<Samochód, ImageView> entry : ikonySamochodow.entrySet()) {
+            Samochód auto = entry.getKey();
+            ImageView icon = entry.getValue();
 
-        Pozycja pos = aktywnySamochod.getAktPozycja();
-        carImageView.setTranslateX(pos.getX());
-        carImageView.setTranslateY(pos.getY());
+            Pozycja pos = auto.getAktPozycja();
+            icon.setTranslateX(pos.getX());
+            icon.setTranslateY(pos.getY());
+        }
+
+        if (aktywnySamochod != null) {
+            modelTextField.setText(aktywnySamochod.model);
+            plateTextField.setText(aktywnySamochod.nrRejestr);
+            weightTextField.setText(String.valueOf(aktywnySamochod.waga));
+
+            speedTextField.setText(String.format("%.2f km/h", aktywnySamochod.getAktPredkosc()));
+
+            if(aktywnySamochod.silnik != null) {
+                engineNameTextField.setText(aktywnySamochod.silnik.getNazwa());
+                rpmTextField.setText(String.valueOf(aktywnySamochod.silnik.obroty));
+            }
+
+            if(aktywnySamochod.skrzynia != null) {
+                gearboxNameTextField.setText(aktywnySamochod.skrzynia.getNazwa());
+                gearTextField.setText(String.valueOf(aktywnySamochod.skrzynia.getAktualnyBieg()));
+
+                String sprzegloStatus = aktywnySamochod.skrzynia.sprzeglo.stanSprzęgła ? "Wciśnięte" : "Zwolnione";
+                clutchStateTextField.setText(sprzegloStatus);
+            }
+
+            if (aktywnySamochod.stanWłączenia) {
+                startButton.setDisable(true);
+                stopButton.setDisable(false);
+            } else {
+                startButton.setDisable(false);
+                stopButton.setDisable(true);
+            }
+        } else {
+            rpmTextField.setText("-");
+            speedTextField.setText("-");
+        }
     }
 
     public void pokazBlad(String wiadomosc) {
@@ -104,86 +137,89 @@ public class HelloController implements Listener{
                                     int speed, Silnik silnik, SkrzyniaBiegów skrzynia) {
         if (instance == null) return;
         Samochód noweAuto = new Samochód(model, registration, weight, speed, silnik, skrzynia);
+        noweAuto.addListener(instance);
         instance.listaSamochodow.add(noweAuto);
-        System.out.println("Dodano auto: " + model);
+        instance.stworzIkonkeDlaAuta(noweAuto);
         instance.carComboBox.getSelectionModel().select(noweAuto);
     }
 
-    @FXML
-    private void onCarSelect() {
-        if (aktywnySamochod != null) {
-            aktywnySamochod.removeListener(this);
+    private void stworzIkonkeDlaAuta(Samochód auto) {
+        ImageView icon = new ImageView();
+        if (carImage != null) {
+            icon.setImage(carImage);
         }
+        icon.setFitWidth(40);
+        icon.setFitHeight(25);
+        icon.setPreserveRatio(true);
 
+        icon.setTranslateX(auto.getAktPozycja().getX());
+        icon.setTranslateY(auto.getAktPozycja().getY());
+
+        ikonySamochodow.put(auto, icon);
+        mapa.getChildren().add(icon);
+    }
+
+    @FXML private void onCarSelect() {
         aktywnySamochod = carComboBox.getValue();
-
         if (aktywnySamochod != null) {
-            aktywnySamochod.addListener(this);
-            System.out.println("Wybrano auto: " + aktywnySamochod);
             odswiezWidok();
         }
     }
 
-    @FXML
-    private void onStartButton() {
+    @FXML private void onStartButton() {
         if (aktywnySamochod != null) {
-            System.out.println("Włączam samochód: " + aktywnySamochod.model);
             aktywnySamochod.włącz();
             odswiezWidok();
         }
     }
 
-    @FXML
-    private void onStopButton() {
+    @FXML private void onStopButton() {
         if (aktywnySamochod != null) {
-            System.out.println("Wyłączam samochód: " + aktywnySamochod.model);
             aktywnySamochod.wyłącz();
             odswiezWidok();
         }
     }
 
-    @FXML
-    private void onGearUpButton() {
+    @FXML private void onGearUpButton() {
         if (aktywnySamochod != null) {
             aktywnySamochod.skrzynia.zwiększBieg();
-            System.out.println("Bieg w górę -> " + aktywnySamochod.skrzynia.getAktualnyBieg());
             odswiezWidok();
         }
     }
 
-    @FXML
-    private void onGearDownButton() {
+    @FXML private void onGearDownButton() {
         if (aktywnySamochod != null) {
             aktywnySamochod.skrzynia.zmniejszBieg();
-            System.out.println("Bieg w dół -> " + aktywnySamochod.skrzynia.getAktualnyBieg());
             odswiezWidok();
         }
     }
 
-    @FXML
-    private void onGasAddButton() {
+    @FXML private void onGasAddButton() {
         if (aktywnySamochod != null && aktywnySamochod.stanWłączenia) {
             aktywnySamochod.silnik.zwiększObroty();
             odswiezWidok();
         }
     }
 
-    @FXML
-    private void onGasRemoveButton() {
+    @FXML private void onGasRemoveButton() {
         if (aktywnySamochod != null && aktywnySamochod.stanWłączenia) {
             aktywnySamochod.silnik.zmniejszObroty();
             odswiezWidok();
         }
     }
 
-    @FXML
-    private void onClutchPressButton() {
-        System.out.println("Clutch press");
+    @FXML private void onClutchPressButton() {
+        if (aktywnySamochod != null) {
+            aktywnySamochod.skrzynia.sprzeglo.wciśnij();
+            odswiezWidok();
+        }
     }
 
-    @FXML
-    private void onClutchReleaseButton() {
-        System.out.println("Clutch release");
+    @FXML private void onClutchReleaseButton() {
+        if (aktywnySamochod != null) {
+            aktywnySamochod.skrzynia.sprzeglo.zwolnij();
+            odswiezWidok();
+        }
     }
 
     @FXML
@@ -202,16 +238,17 @@ public class HelloController implements Listener{
     @FXML
     private void onDeleteCarButton() {
         if (aktywnySamochod != null) {
-            aktywnySamochod.removeListener(this);
             aktywnySamochod.wyłącz();
+
+            ImageView icon = ikonySamochodow.get(aktywnySamochod);
+            mapa.getChildren().remove(icon);
+            ikonySamochodow.remove(aktywnySamochod);
+
             listaSamochodow.remove(aktywnySamochod);
             carComboBox.getSelectionModel().clearSelection();
+
             aktywnySamochod = null;
-            modelTextField.clear();
-            plateTextField.clear();
-            carImageView.setTranslateX(0);
-            carImageView.setTranslateY(0);
-            //reszta czyszczenia
+            odswiezWidok();
         }
     }
 
