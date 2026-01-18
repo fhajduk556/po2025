@@ -1,8 +1,10 @@
 package com.example.lab6;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
@@ -12,14 +14,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import symulator.Samochód;
-import symulator.Silnik;
-import symulator.SkrzyniaBiegów;
+import symulator.*;
 
-public class HelloController {
+public class HelloController implements Listener{
 
     @FXML public ImageView carImageView;
+    @FXML private Pane mapa;
+
     @FXML private TextField modelTextField;
     @FXML private TextField plateTextField;
     @FXML private TextField weightTextField;
@@ -50,7 +53,6 @@ public class HelloController {
     public void initialize() {
         instance = this;
         System.out.println("HelloController initialized");
-// Load and set the car image
         Image carImage = new Image(getClass().getResource("/images/car.png").toExternalForm());
         System.out.println("Image width: " + carImage.getWidth() + ", height: " + carImage.getHeight());
         carImageView.setImage(carImage);
@@ -58,11 +60,23 @@ public class HelloController {
         carImageView.setFitHeight(20);
         carImageView.setTranslateX(0);
         carImageView.setTranslateY(0);
-//        Samochód s1 = new Samochód("Fiat 126p", "KR 12345");
-//        Samochód s2 = new Samochód("Porsche 911", "W0 ROCKET");
-//        listaSamochodow.add(s1);
-//        listaSamochodow.add(s2);
+
         carComboBox.setItems(listaSamochodow);
+
+        mapa.setOnMouseClicked(event -> {
+            double x = event.getX();
+            double y = event.getY();
+            System.out.println("Kliknięto mapę: " + x + ", " + y);
+            Pozycja cel = new Pozycja(x, y);
+            aktywnySamochod.JedźDo(cel);
+        });
+    }
+
+    @Override
+    public void update() {
+        Platform.runLater(() -> {
+            odswiezWidok();
+        });
     }
 
     private void odswiezWidok() {
@@ -72,6 +86,18 @@ public class HelloController {
         speedTextField.setText(String.format("%.2f km/h", aktywnySamochod.getAktPredkosc()));
         rpmTextField.setText(String.valueOf(aktywnySamochod.silnik.obroty));
         gearTextField.setText(String.valueOf(aktywnySamochod.skrzynia.getAktualnyBieg()));
+
+        Pozycja pos = aktywnySamochod.getAktPozycja();
+        carImageView.setTranslateX(pos.getX());
+        carImageView.setTranslateY(pos.getY());
+    }
+
+    public void pokazBlad(String wiadomosc) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Błąd");
+        alert.setHeaderText(null);
+        alert.setContentText(wiadomosc);
+        alert.showAndWait();
     }
 
     public static void addCarToList(String model, String registration, double weight,
@@ -80,13 +106,22 @@ public class HelloController {
         Samochód noweAuto = new Samochód(model, registration, weight, speed, silnik, skrzynia);
         instance.listaSamochodow.add(noweAuto);
         System.out.println("Dodano auto: " + model);
+        instance.carComboBox.getSelectionModel().select(noweAuto);
     }
 
     @FXML
     private void onCarSelect() {
+        if (aktywnySamochod != null) {
+            aktywnySamochod.removeListener(this);
+        }
+
         aktywnySamochod = carComboBox.getValue();
-        odswiezWidok();
-        System.out.println("Wybrano auto: " + aktywnySamochod);
+
+        if (aktywnySamochod != null) {
+            aktywnySamochod.addListener(this);
+            System.out.println("Wybrano auto: " + aktywnySamochod);
+            odswiezWidok();
+        }
     }
 
     @FXML
@@ -160,17 +195,22 @@ public class HelloController {
             stage.setScene(new Scene(loader.load()));
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            pokazBlad("Nie udało się otworzyć okna: " + e.getMessage());
         }
     }
 
     @FXML
     private void onDeleteCarButton() {
         if (aktywnySamochod != null) {
+            aktywnySamochod.removeListener(this);
+            aktywnySamochod.wyłącz();
             listaSamochodow.remove(aktywnySamochod);
+            carComboBox.getSelectionModel().clearSelection();
             aktywnySamochod = null;
             modelTextField.clear();
             plateTextField.clear();
+            carImageView.setTranslateX(0);
+            carImageView.setTranslateY(0);
             //reszta czyszczenia
         }
     }

@@ -158,7 +158,7 @@
     </left>
 
     <center>
-        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #90EE90;" BorderPane.alignment="CENTER">
+        <Pane fx:id="mapa" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #90EE90;" BorderPane.alignment="CENTER">
             <children>
                 <Label layoutX="14.0" layoutY="14.0" text="Mapa" textFill="#006600" />
                 <ImageView fx:id="carImageView" fitHeight="64.0" fitWidth="64.0" layoutX="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />

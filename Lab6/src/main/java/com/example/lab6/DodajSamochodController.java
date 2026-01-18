@@ -12,24 +12,16 @@ import symulator.SkrzyniaBiegów;
 
 
 public class DodajSamochodController {
-    @FXML
-    private TextField modelAddTextField;
-    @FXML
-    private TextField nrRejestracyjnyAddTextField;
-    @FXML
-    private TextField wagaAddTextField;
-    @FXML
-    private TextField speedAddTextField;
+    @FXML private TextField modelAddTextField;
+    @FXML private TextField nrRejestracyjnyAddTextField;
+    @FXML private TextField wagaAddTextField;
+    @FXML private TextField speedAddTextField;
 
-    @FXML
-    private ComboBox<Silnik> SilnikComboBox;
-    @FXML
-    private ComboBox<SkrzyniaBiegów> SkrzyniaComboBox;
+    @FXML private ComboBox<Silnik> SilnikComboBox;
+    @FXML private ComboBox<SkrzyniaBiegów> SkrzyniaComboBox;
 
-    @FXML
-    private Button confirmButton;
-    @FXML
-    private Button cancelButton;
+    @FXML private Button confirmButton;
+    @FXML private Button cancelButton;
 
     public void initialize() {
         ObservableList<Silnik> dostepneSilniki = FXCollections.observableArrayList(

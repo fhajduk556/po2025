@@ -1,6 +1,9 @@
 package symulator;
 
-public class Samochód extends Thread{
+import java.util.ArrayList;
+import java.util.List;
+
+public class Samochód extends Thread {
     public Silnik silnik;
     public SkrzyniaBiegów skrzynia;
     public Pozycja aktualnaPozycja;
@@ -10,6 +13,8 @@ public class Samochód extends Thread{
     public int predkoscMax;
     public double waga;
     private Pozycja cel;
+
+    private List<Listener> listeners = new ArrayList<>();
 
     public Samochód(){
         this.silnik = new Silnik();
@@ -36,6 +41,20 @@ public class Samochód extends Thread{
         this.skrzynia = skrzynia;
     }
 
+    public void addListener(Listener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+        listeners.remove(listener);
+    }
+
+    private void notifyListeners() {
+        for (Listener listener : listeners) {
+            listener.update();
+        }
+    }
+
     public void włącz() {
         this.silnik.uruchom();
         this.stanWłączenia = true;
@@ -57,6 +76,7 @@ public class Samochód extends Thread{
                 Thread.sleep(100);
                 if (stanWłączenia && cel != null) {
                     aktualnaPozycja.przenies(cel, getAktPredkosc(), 0.1);
+                    notifyListeners();
                 }
             } catch (InterruptedException e) {
                 System.out.println("Wątek samochodu przerwany");
