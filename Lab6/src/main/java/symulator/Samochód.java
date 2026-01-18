@@ -1,6 +1,6 @@
 package symulator;
 
-public class Samochód {
+public class Samochód extends Thread{
     public Silnik silnik;
     public SkrzyniaBiegów skrzynia;
     public Pozycja aktualnaPozycja;
@@ -9,6 +9,8 @@ public class Samochód {
     public String model;
     public int predkoscMax;
     public double waga;
+    private Pozycja cel;
+
     public Samochód(){
         this.silnik = new Silnik();
         this.skrzynia = new SkrzyniaBiegów(6);
@@ -17,7 +19,10 @@ public class Samochód {
         aktualnaPozycja = new Pozycja(0, 0);
         this.model = "Nieznany";
         this.nrRejestr = "BRAK";
+
         this.waga = 1000.0;
+        setDaemon(true);
+        start();
     }
 
     public Samochód(String model, String nrRejestr, double waga, int predkoscMax,
@@ -42,7 +47,22 @@ public class Samochód {
     }
 
     public void JedźDo(Pozycja cel) {
-        //
+        this.cel = cel;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(100);
+                if (stanWłączenia && cel != null) {
+                    aktualnaPozycja.przenies(cel, getAktPredkosc(), 0.1);
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Wątek samochodu przerwany");
+                break;
+            }
+        }
     }
 
     public double getAktPredkosc() {
