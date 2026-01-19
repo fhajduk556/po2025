@@ -73,6 +73,13 @@ public class HelloController implements Listener{
                 aktywnySamochod.JedźDo(cel);
             }
         });
+
+        Silnik silnikStartowy = new Silnik("Diesel 1.9 TDI", 4500);
+        SkrzyniaBiegów skrzyniaStartowa = new SkrzyniaBiegów("Manualna (5)", 5);
+        addCarToList("VW Golf", "START", 1300.0, 190, silnikStartowy, skrzyniaStartowa);
+        aktywnySamochod = listaSamochodow.get(0);
+        odswiezWidok();
+
     }
 
     @Override
@@ -90,6 +97,18 @@ public class HelloController implements Listener{
             Pozycja pos = auto.getAktPozycja();
             icon.setTranslateX(pos.getX());
             icon.setTranslateY(pos.getY());
+        }
+
+        if (aktywnySamochod == null) {
+            modelTextField.setText("");
+            plateTextField.setText("");
+            weightTextField.setText("");
+            speedTextField.setText("");
+            gearboxNameTextField.setText("");
+            gearTextField.setText("");
+            engineNameTextField.setText("");
+            rpmTextField.setText("");
+            clutchStateTextField.setText("");
         }
 
         if (aktywnySamochod != null) {
@@ -119,9 +138,6 @@ public class HelloController implements Listener{
                 startButton.setDisable(false);
                 stopButton.setDisable(true);
             }
-        } else {
-            rpmTextField.setText("-");
-            speedTextField.setText("-");
         }
     }
 
