@@ -28,17 +28,13 @@ public class SkrzyniaBiegów extends Komponent {
     }
 
     public void zwiększBieg() {
-        if (this.aktualnyBieg  < this.iloscBiegow) {
-            this.sprzeglo.wciśnij();
+        if (this.aktualnyBieg  < this.iloscBiegow && this.sprzeglo.stanSprzęgła == true) {
             this.aktualnyBieg++;
-            this.sprzeglo.zwolnij();
         }
     }
     public void zmniejszBieg() {
-        if (this.aktualnyBieg > 1) {
-            this.sprzeglo.wciśnij();
+        if (this.aktualnyBieg > 1 && this.sprzeglo.stanSprzęgła == true) {
             this.aktualnyBieg--;
-            this.sprzeglo.zwolnij();
         }
     }
     public int getAktualnyBieg() {
