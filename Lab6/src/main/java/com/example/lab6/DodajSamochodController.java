@@ -52,7 +52,12 @@ public class DodajSamochodController {
             weight = Double.parseDouble(wagaAddTextField.getText());
             speed = Integer.parseInt(speedAddTextField.getText());
         } catch (NumberFormatException e) {
-            System.out.println("Niepoprawne dane. Spróbuj ponownie.");
+            HelloController.pokazBlad("Waga i prędkość muszą być liczbami\nPopraw dane.");
+            return;
+        }
+
+        if (model.isEmpty() || registration.isEmpty()) {
+            HelloController.pokazBlad("Model i rejestracja nie mogą być puste");
             return;
         }
 

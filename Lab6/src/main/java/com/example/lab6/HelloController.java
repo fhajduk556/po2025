@@ -125,7 +125,7 @@ public class HelloController implements Listener{
         }
     }
 
-    public void pokazBlad(String wiadomosc) {
+    public static void pokazBlad(String wiadomosc) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Błąd");
         alert.setHeaderText(null);
